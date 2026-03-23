@@ -165,9 +165,6 @@ This research was funded by the **Research Council of Lithuania (LMTLT)**, grant
 
 ---
 
-
----
-
 ## Authors & Contributors
 
 **¹ Faculty of Electrical and Electronics Engineering, Kaunas University of Technology:**
