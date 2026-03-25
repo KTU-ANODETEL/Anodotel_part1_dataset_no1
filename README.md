@@ -1,4 +1,4 @@
-# MLab Dataset — Experimental Power Event Measurements
+# ANODOTEL Part 1 Dataset No: 1 - Experimental Power Event Measurements
 
 > Experimental smart meter measurement dataset collected in a real university office building environment, preprocessed for power event detection and machine learning research.
 
@@ -7,23 +7,69 @@
 [![Funded by LMTLT](https://img.shields.io/badge/Funded%20by-LMTLT%20S--MIP--24--42-orange)]()
 
 ---
-
+ 
 ## Overview
-
+ 
 This repository contains a comprehensive dataset of experimental measurement results. The experiments were conducted in a **university office building** equipped with typical office infrastructure, including personal computers, large display screens, electrical kettles, etc.
-
+ 
 Both the **sum meter** and the **consumer meter** were connected to the same single-phase branch on the same floor of the building.
-
+ 
 In order to select power events more precisely, preprocessing was performed on the experimental data according to the following criteria:
-
+ 
 - **`tm`** — number of samples used for mean power consumption calculation before and after a power event
 - **`dev`** — standard deviation threshold [W] of power consumption samples in the range before and after the power event edge
-
-
+ 
 ---
-
+ 
 ## Dataset Structure
+ 
+The repository contains two types of data: **raw meter recordings** (continuous time-series from P1 smart meter interface) and **preprocessed event files** (extracted power events in XLSX format).
+ 
+---
+ 
+## Raw Data
+ 
+Raw recordings are provided as CSV files captured directly from the P1 smart meter interface at ~1 second sampling interval.
 
+### Raw Data Columns
+ 
+Each row represents one meter reading. Two meters (sum and consumer) report alternately via a single reporter device, identified by `equipment_identifier`.
+ 
+> **Single-phase data only.** Although the P1 interface provides fields for three phases (L1, L2, L3), only **L1 data is populated** in this dataset. All L2 and L3 columns are `NaN`.
+ 
+| Column | Unit | Description |
+|--------|------|-------------|
+| `ntp_time` | — | Timestamp of the reading (NTP-synchronized, ~1 s interval) |
+| `equipment_identifier` | — | Unique meter ID (sum meter or consumer meter) |
+| `reporter_device` | — | MAC address of the P1 interface reporting device |
+| `active_energy_export` | Wh | Cumulative active energy exported to grid |
+| `active_energy_import` | Wh | Cumulative active energy imported from grid |
+| `instantaneous_active_export_power_l1` | W | Instantaneous active export power, phase L1 |
+| `instantaneous_active_import_power_l1` | W | Instantaneous active import power, phase L1 |
+| `instantaneous_active_import_power_l2` | W | Instantaneous active import power, phase L2 |
+| `instantaneous_active_import_power_l3` | W | Instantaneous active import power, phase L3 |
+| `instantaneous_current_l1` | A | Instantaneous current, phase L1 |
+| `instantaneous_current_l2` | A | Instantaneous current, phase L2 |
+| `instantaneous_current_l3` | A | Instantaneous current, phase L3 |
+| `instantaneous_power_factor_l1` | — | Power factor, phase L1 |
+| `instantaneous_power_factor_l2` | — | Power factor, phase L2 |
+| `instantaneous_power_factor_l3` | — | Power factor, phase L3 |
+| `instantaneous_reactive_export_power_l1` | Var | Instantaneous reactive export power, phase L1 |
+| `instantaneous_reactive_export_power_l2` | Var | Instantaneous reactive export power, phase L2 |
+| `instantaneous_reactive_export_power_l3` | Var | Instantaneous reactive export power, phase L3 |
+| `instantaneous_reactive_import_power_l1` | Var | Instantaneous reactive import power, phase L1 |
+| `instantaneous_reactive_import_power_l2` | Var | Instantaneous reactive import power, phase L2 |
+| `instantaneous_reactive_import_power_l3` | Var | Instantaneous reactive import power, phase L3 |
+| `instantaneous_voltage_l1` | V | Instantaneous voltage, phase L1 |
+| `instantaneous_voltage_l2` | V | Instantaneous voltage, phase L2 |
+| `instantaneous_voltage_l3` | V | Instantaneous voltage, phase L3 |
+| `total_harmonic_distortion_l1` | % | Total harmonic distortion, phase L1 |
+| `total_harmonic_distortion_l2` | % | Total harmonic distortion, phase L2 |
+| `total_harmonic_distortion_l3` | % | Total harmonic distortion, phase L3 |
+| `valid_crc` | — | CRC validity flag (1 = valid, 0 = invalid) |
+
+## Preprocessed Event Files
+ 
 Files are organized by **sample window** (`tm`) and **deviation threshold** (`dev`):
 
 ### File Naming Convention
